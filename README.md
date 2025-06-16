@@ -1,38 +1,36 @@
 # ROV Brain
 
 
-This project uses PlatformIO with the Arduino framework to control an ROV. A
-`ThrusterController` library is provided to manage a pair of thrusters.
+Firmware scaffolding for an underwater remotely operated vehicle (ROV) using an ESP32-C3.
 
-## ThrusterController
-
-The controller is initialised with the pins connected to the left and right
-thruster ESCs:
-
-```cpp
-#include <ThrusterController.h>
-
-ThrusterController thrusters(leftPin, rightPin);
-```
-
-Call `begin()` in `setup()` and then provide separate left and right thrust
-values with `setThrust(left, right)`.
-
-A convenience function `setThrustYaw(thrust, yaw)` can be used when you want to
-specify a forward thrust along with a yaw component. The controller will compute
-individual thruster values from these parameters.
-
-Both `thrust` and `yaw` (and the left/right values) are expected to be in the
-range `[-1.0, 1.0]`. Internally these values are mapped to the PWM duty cycle on
-the configured pins.
+## Features
+- **Three Thrusters**
+  - Two horizontal thrusters for forward/reverse propulsion and differential yaw control.
+  - One vertical thruster mounted at the rear for pitch adjustment.
+- **Orientation Sensing**
+  - Uses an MPU6050 IMU to provide basic pitch, roll and yaw information.
 
 ## Building
-
-To build the firmware run:
+This project uses [PlatformIO](https://platformio.org/) for building and uploading the firmware.
 
 ```bash
+# install PlatformIO command line interface
+pip install --user platformio
+
+# build the firmware
 pio run
+
+# upload to the board
+pio run --target upload
 ```
 
-PlatformIO will automatically build the library from the `lib` directory.
+## Directory Structure
+- `src/` - source files
+- `include/` - header files
+- `lib/` - private libraries
+- `test/` - unit test scaffold
+- `docs/` - design notes and documentation
+
+See `docs/OVERVIEW.md` for a brief summary of the hardware layout.
+
 
