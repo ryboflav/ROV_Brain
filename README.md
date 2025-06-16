@@ -1,12 +1,38 @@
 # ROV Brain
 
-Firmware project for the ROV control board using PlatformIO and the ESP32-C3.
 
-## Build Instructions
+This project uses PlatformIO with the Arduino framework to control an ROV. A
+`ThrusterController` library is provided to manage a pair of thrusters.
 
-1. Install [PlatformIO](https://platformio.org/).
-2. Clone this repository.
-3. Run `pio run` from the project root or use the PlatformIO IDE to build.
+## ThrusterController
 
-PlatformIO will automatically fetch libraries listed in `platformio.ini`. The
-current configuration requires the [i2cdevlib/MPU6050](https://registry.platformio.org/libraries/i2cdevlib/MPU6050) library.
+The controller is initialised with the pins connected to the left and right
+thruster ESCs:
+
+```cpp
+#include <ThrusterController.h>
+
+ThrusterController thrusters(leftPin, rightPin);
+```
+
+Call `begin()` in `setup()` and then provide separate left and right thrust
+values with `setThrust(left, right)`.
+
+A convenience function `setThrustYaw(thrust, yaw)` can be used when you want to
+specify a forward thrust along with a yaw component. The controller will compute
+individual thruster values from these parameters.
+
+Both `thrust` and `yaw` (and the left/right values) are expected to be in the
+range `[-1.0, 1.0]`. Internally these values are mapped to the PWM duty cycle on
+the configured pins.
+
+## Building
+
+To build the firmware run:
+
+```bash
+pio run
+```
+
+PlatformIO will automatically build the library from the `lib` directory.
+
