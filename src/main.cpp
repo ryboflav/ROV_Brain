@@ -4,11 +4,11 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
 
-  // Wait for Serial to be ready
-  while (!Serial) {
-    // Wait for Serial to be ready
+  // Wait for Serial to be ready but do not block forever (max 5 seconds)
+  unsigned long start = millis();
+  while (!Serial && (millis() - start) < 5000) {
     delay(100);
-  } 
+  }
 
   const int pwmPin = 9; // Choose a PWM-capable pin
 
